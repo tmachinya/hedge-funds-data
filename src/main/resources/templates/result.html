@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Update Result</title>
+</head>
+<body>
+<h1>Update Result</h1>
+<div th:each="row : ${result}">
+    <p>ID: <span th:text="${row['id']}"></span></p>
+    <p>Activist: <span th:text="${row['activist']}"></span></p>
+    <p>Updated Column Name: <span th:text="${row['updated_column_name']}"></span></p>
+    <p>Updated Column Value: <span th:text="${row['updated_column_value']}"></span></p>
+</div>
+</body>
+</html>

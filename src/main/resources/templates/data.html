@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Data</title>
+    <link th:href="@{/webjars/bootstrap/5.1.3/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/webjars/datatables/1.11.3/css/jquery.dataTables.min.css}" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <h1 class="mb-4">Data List</h1>
+    <table id="data-table" class="table table-striped table-bordered" style="width:100%">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Activist</th>
+            <th>Company</th>
+            <th>hfexec1</th>
+            <th>hfexec2</th>
+            <th>hfexec3</th>
+            <th>hfexec4</th>
+            <th>hfexec5</th>
+            <th>hfexec6</th>
+            <th>hfexec7</th>
+            <th>hfexec8</th>
+            <th>hfexec9</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="data : ${dataList}">
+            <td th:text="${data.id}"></td>
+            <td th:text="${data.activist}"></td>
+            <td th:text="${data.company}"></td>
+            <td th:text="${data.hfexec1}"></td>
+            <td th:text="${data.hfexec2}"></td>
+            <td th:text="${data.hfexec3}"></td>
+            <td th:text="${data.hfexec4}"></td>
+            <td th:text="${data.hfexec5}"></td>
+            <td th:text="${data.hfexec6}"></td>
+            <td th:text="${data.hfexec7}"></td>
+            <td th:text="${data.hfexec8}"></td>
+            <td th:text="${data.hfexec9}"></td>
+            <td><a th:href="@{/data/{id}/update(id=${data.id})}">Update</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<script th:src="@{/webjars/jquery/3.6.0/jquery.min.js}"></script>
+<script th:src="@{/webjars/datatables/1.11.3/js/jquery.dataTables.min.js}"></script>
+<script>
+    $(document).ready(function() {
+        $('#data-table').DataTable();
+    });
+</script>
+</body>
+</html>
