@@ -17,14 +17,19 @@ import java.util.stream.IntStream;
 
 @Controller
 public class ShazSampleDataController {
-    @Autowired
-    private ShazSampleDataRepository repository;
-    @Autowired
-    private ShazSampleDataService service;
+
+    private final ShazSampleDataRepository repository;
+
+    private final ShazSampleDataService service;
+
+    public ShazSampleDataController(ShazSampleDataRepository repository, ShazSampleDataService service) {
+        this.repository = repository;
+        this.service = service;
+    }
 
     @GetMapping("/")
     public String showData(Model model) {
-        List<ShazSampleData> dataList = (List<ShazSampleData>) repository.findAll();
+        List<ShazSampleData> dataList = repository.findTop10ByOrderByIdDesc();
         model.addAttribute("dataList", dataList);
         return "data";
     }
@@ -33,7 +38,7 @@ public class ShazSampleDataController {
     public String showUpdateForm(@PathVariable Integer id, Model model) {
         ShazSampleData data = repository.findById(Long.valueOf(id)).orElseThrow(() -> new RuntimeException("Data not found"));
         model.addAttribute("data", data);
-        model.addAttribute("columns", Arrays.asList("Column","source", "execrace", "execeducationalinstitutions", "execbroadacademicspecializations", "execacademicspecializations", "execbroadworkexperience", "execworkexperience"));
+        model.addAttribute("columns", Arrays.asList("source", "execrace","Column"));
         model.addAttribute("suffixLetters", Arrays.asList("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k"));
         model.addAttribute("suffixNumbers", IntStream.rangeClosed(1, 16).boxed().collect(Collectors.toList()));
         return "update";
