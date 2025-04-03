@@ -3,7 +3,6 @@ package com.example.shaz.controller;
 import com.example.shaz.model.ShazSampleData;
 import com.example.shaz.repository.ShazSampleDataRepository;
 import com.example.shaz.service.ShazSampleDataService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,7 +37,7 @@ public class ShazSampleDataController {
     public String showUpdateForm(@PathVariable Integer id, Model model) {
         ShazSampleData data = repository.findById(Long.valueOf(id)).orElseThrow(() -> new RuntimeException("Data not found"));
         model.addAttribute("data", data);
-        model.addAttribute("columns", Arrays.asList("source", "execrace","Column"));
+        model.addAttribute("columns", Arrays.asList("Column","source", "execrace"));
         model.addAttribute("suffixLetters", Arrays.asList("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k"));
         model.addAttribute("suffixNumbers", IntStream.rangeClosed(1, 16).boxed().collect(Collectors.toList()));
         return "update";

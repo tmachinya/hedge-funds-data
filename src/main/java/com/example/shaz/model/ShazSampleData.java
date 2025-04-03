@@ -26,6 +26,13 @@ public class ShazSampleData {
     private String hfexec7;
     private String hfexec8;
     private String hfexec9;
+    private String hfexec10;
+    private String hfexec11;
+    private String hfexec12;
+    private String hfexec13;
+    private String hfexec14;
+    private String hfexec15;
+    private String hfexec16;
 
     // Getters and Setters
 }
