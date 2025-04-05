@@ -64,9 +64,9 @@ jobs:
           kubectl apply -f k8s/postgres-init-job.yaml
           kubectl wait --for=condition=complete job/postgres-init-job --timeout=180s
 
-      # Clean up DB init job to keep cluster clean
       - name: Clean up DB init job
-        run: kubectl delete job postgres-init-job || true
+        shell: cmd
+        run: kubectl delete job postgres-init-job || exit /b 0
 
       # Rollout restart Spring Boot to ensure latest image is used
       - name: Restart Spring Boot deployment
