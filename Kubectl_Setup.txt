@@ -1,0 +1,15 @@
+
+# Kubectl Local Setup for Kubernetes
+
+1. Enable Kubernetes in Docker Desktop:
+   - Go to Docker Desktop > Settings > Kubernetes > Enable Kubernetes
+
+2. Install kubectl (if not already):
+   choco install kubernetes-cli
+
+3. Check your Kubernetes cluster is running:
+   kubectl cluster-info
+
+4. Apply Kubernetes manifests manually (optional):
+   kubectl apply -f k8s/postgres-deployment.yaml
+   kubectl apply -f k8s/springboot-deployment.yaml
