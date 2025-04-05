@@ -96,10 +96,4 @@ jobs:
           timeout /t 10
           goto retry
 
-      # Stream Spring Boot logs
-      - name: Stream Spring Boot logs
-        shell: cmd
-        run: |
-          start "" kubectl logs -l app=springboot --tail=100 --follow
-          timeout /t 3
 
