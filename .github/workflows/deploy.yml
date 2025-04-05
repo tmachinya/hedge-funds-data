@@ -44,11 +44,13 @@ jobs:
           docker build -t tmachinya/postgres-db-init:latest -f Dockerfile.db-init .
           docker push tmachinya/postgres-db-init:latest
 
-      # Setup KUBECONFIG environment variable for the runner
       - name: Set KUBECONFIG environment variable (Windows)
-        shell: pwsh
-        run: |
-          echo "KUBECONFIG=C:/Users/user/.kube/config" | Out-File -FilePath $env:GITHUB_ENV -Append
+        shell: cmd
+        run: echo KUBECONFIG=C:/Users/user/.kube/config>> %GITHUB_ENV%
+
+      - name: Debug environment variables
+        shell: cmd
+        run: echo %KUBECONFIG%
 
       # (Optional) Verify Kubernetes connection
       - name: Verify Kubernetes cluster connection
