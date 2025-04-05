@@ -74,14 +74,19 @@ jobs:
 
       # Post-deploy health check
       - name: Post-deploy health check
+        shell: cmd
         run: |
-          echo "Checking application health..."
-          for i in {1..10}; do
-            curl --fail http://localhost:8080 && echo "App is healthy!" && exit 0
-            echo "Waiting for app to become ready..."
-            sleep 5
-          done
-          echo "Application health check failed!" && exit 1
+          echo Checking application health...
+          set RETRIES=10
+          :retry
+          curl --fail http://localhost:8080 && echo App is healthy! && exit /b 0
+          set /a RETRIES-=1
+          if %RETRIES% EQU 0 (
+            echo Application health check failed!
+            exit /b 1
+          )
+          timeout /t 5
+          goto retry
 
       # (Optional) Stream logs during deploy (nice to see)
       - name: Stream Spring Boot logs
