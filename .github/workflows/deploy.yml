@@ -57,3 +57,11 @@ jobs:
       # Optional: Clean up the init job after completion (keeps cluster clean)
       - name: Clean up DB init job
         run: kubectl delete job postgres-init-job || true
+
+      - name: Set KUBECONFIG environment variable (Windows)
+        shell: pwsh
+        run: |
+          echo "KUBECONFIG=C:/Users/user/.kube/config" | Out-File -FilePath $env:GITHUB_ENV -Append
+
+      - name: Verify Kubernetes cluster connection
+        run: kubectl cluster-info
