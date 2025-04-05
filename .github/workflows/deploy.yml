@@ -72,12 +72,16 @@ jobs:
       - name: Restart Spring Boot deployment
         run: kubectl rollout restart deployment/springboot
 
+      - name: Wait for Spring Boot Deployment to be ready
+        shell: cmd
+        run: kubectl rollout status deployment/springboot
+
       # Post-deploy health check
       - name: Post-deploy health check
         shell: cmd
         run: |
           echo Checking application health...
-          set RETRIES=10
+          set RETRIES=20
           :retry
           curl --fail http://localhost:8080 && echo App is healthy! && exit /b 0
           set /a RETRIES-=1
@@ -85,7 +89,7 @@ jobs:
             echo Application health check failed!
             exit /b 1
           )
-          timeout /t 5
+          timeout /t 10
           goto retry
 
       # (Optional) Stream logs during deploy (nice to see)
