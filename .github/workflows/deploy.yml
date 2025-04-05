@@ -87,20 +87,11 @@ jobs:
           timeout /t 5
 
       # Post-deploy health check
-      - name: Post-deploy health check
+      - name: Post-deploy health check (inside Kubernetes)
         shell: cmd
         run: |
-          echo Checking application health...
-          set RETRIES=20
-          :retry
-          curl --fail http://localhost:8080 && echo App is healthy! && exit /b 0
-          set /a RETRIES-=1
-          if %RETRIES% EQU 0 (
-            echo Application health check failed!
-            exit /b 1
-          )
-          timeout /t 10
-          goto retry
+          echo Checking application health from inside the cluster...
+          kubectl run curlpod --rm -i --tty --image=curlimages/curl --restart=Never -- curl -s --fail http://springboot-service:8080 || exit /b 1
 
       # Stream Spring Boot logs
       - name: Stream Spring Boot logs
