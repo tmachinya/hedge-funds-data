@@ -76,6 +76,12 @@ jobs:
         shell: cmd
         run: kubectl rollout status deployment/springboot
 
+      - name: Port forward Spring Boot service
+        shell: cmd
+        run: |
+          start /b kubectl port-forward service/springboot-service 8080:8080
+          timeout /t 5
+
       # Post-deploy health check
       - name: Post-deploy health check
         shell: cmd
