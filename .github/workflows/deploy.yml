@@ -98,4 +98,8 @@ jobs:
 
       # Stream Spring Boot logs
       - name: Stream Spring Boot logs
-        run: kubectl logs -l app=springboot --tail=100 --follow &
+        shell: cmd
+        run: |
+          start "" kubectl logs -l app=springboot --tail=100 --follow
+          timeout /t 3
+
