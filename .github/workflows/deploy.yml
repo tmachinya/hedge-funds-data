@@ -80,18 +80,21 @@ jobs:
         shell: cmd
         run: kubectl rollout status deployment/springboot
 
-      - name: Port forward Spring Boot service
-        shell: cmd
-        run: |
-          powershell -Command "Start-Job { kubectl port-forward service/springboot-service 8080:8080 }"
-          timeout /t 5
-
       # Post-deploy health check
-      - name: Post-deploy health check (inside Kubernetes)
+      - name: Post-deploy health check (inside Kubernetes with retries)
         shell: cmd
         run: |
           echo Checking application health from inside the cluster...
-          kubectl run curlpod --rm -i --tty --image=curlimages/curl --restart=Never -- curl -s --fail http://springboot-service:8080 || exit /b 1
+          set RETRIES=10
+          :retry
+          kubectl run curlpod --rm -i --tty --image=curlimages/curl --restart=Never -- curl -s --fail http://springboot-service:8080 && exit /b 0
+          set /a RETRIES-=1
+          if %RETRIES% EQU 0 (
+            echo Application health check failed!
+            exit /b 1
+          )
+          timeout /t 10
+          goto retry
 
       # Stream Spring Boot logs
       - name: Stream Spring Boot logs
