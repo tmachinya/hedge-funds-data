@@ -80,11 +80,10 @@ jobs:
         shell: cmd
         run: kubectl rollout status deployment/springboot
 
-      # Port forward Spring Boot service
       - name: Port forward Spring Boot service
         shell: cmd
         run: |
-          start /b kubectl port-forward service/springboot-service 8080:8080
+          powershell -Command "Start-Job { kubectl port-forward service/springboot-service 8080:8080 }"
           timeout /t 5
 
       # Post-deploy health check
