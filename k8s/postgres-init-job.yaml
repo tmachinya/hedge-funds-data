@@ -1,0 +1,12 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: postgres-init-job
+spec:
+  template:
+    spec:
+      containers:
+        - name: db-init
+          image: tmachinya/postgres-db-init:latest
+          command: ["sh", "-c", "psql postgresql://postgres:root@postgres:5432/postgres -f /docker-entrypoint-initdb.d/08_02_2025.sql"]
+      restartPolicy: OnFailure
